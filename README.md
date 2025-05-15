@@ -1,0 +1,34 @@
+# A Trusted AriaNg Docker Image Builder
+
+## Run with Docker
+
+```bash
+docker run -d \
+    --name ariang \
+    --log-opt max-size=1m \
+    --restart unless-stopped \
+    -p 6880:80 \
+    ljwzz/ariang
+```
+
+## Docker Compose
+
+```yaml
+  version: '3.8'
+  services:
+    AriaNg:
+      container_name: ariang
+      image: ljwzz/ariang
+      network_mode: bridge
+      ports:
+        - "127.0.0.1:36880:80"
+      restart: unless-stopped
+      logging:
+        driver: json-file
+        options:
+          max-size: 1m
+```
+
+Credits
+ + mayswind/AriaNg⁠
+ + emikulic/darkhttpd⁠
