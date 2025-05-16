@@ -45,7 +45,7 @@ RUN mkdir -p /etc && \
 
 # 最终镜像
 FROM scratch
-WORKDIR /var/www/htdocs
+WORKDIR /ariang
 
 # 复制 darkhttpd 二进制
 COPY --from=darkhttpd-builder --chown=0:0 /src/darkhttpd /darkhttpd
