@@ -4,7 +4,9 @@ set -euo pipefail
 # 常量定义
 readonly ARIANG_RELEASES_URL="https://api.github.com/repos/mayswind/AriaNg/releases/latest"
 readonly DARKHTTPD_RELEASES_URL="https://api.github.com/repos/emikulic/darkhttpd/releases/latest"
-readonly DOCKER_IMAGE_NAME="ariang"
+readonly DOCKER_IMAGE_NAME="ljwzz/ariang"
+readonly PACKAGE_DIR="packages"
+readonly PACKAGE_PREFIX="ariang"
 
 # 日志函数
 log() {
@@ -61,6 +63,20 @@ main() {
     fi
   done
 
+  # 解析参数
+  local no_tar=false
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    --no-tar)
+      no_tar=true
+      shift
+      ;;
+    *)
+      shift
+      ;;
+    esac
+  done
+
   log "开始构建流程"
 
   # 获取版本信息
@@ -108,6 +124,23 @@ main() {
   log "构建成功完成！"
   log "可用镜像标签:"
   docker images --filter "reference=$DOCKER_IMAGE_NAME" --format "{{.Tag}}" | sort -u
+
+  # 如果不指定--no-tar参数则执行打包
+  if [[ "$no_tar" == false ]]; then
+    # 打包镜像为tgz
+    log "开始打包镜像..."
+    mkdir -p "$PACKAGE_DIR"
+    local package_name="${PACKAGE_PREFIX}-${ARIANG_VERSION}.tgz"
+
+    echo -n "保存镜像到文件："
+    exec 3< <(docker save "$DOCKER_IMAGE_NAME:$ARIANG_VERSION" | gzip >"${PACKAGE_DIR}/${package_name}")
+    spinner $! "保存镜像到文件："
+    exec 3<&-
+
+    log "打包完成！镜像已保存到: ${PACKAGE_DIR}/${package_name}"
+  else
+    log "跳过打包步骤 (--no-tar参数已指定)"
+  fi
 }
 
 main "$@"
