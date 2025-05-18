@@ -1,4 +1,10 @@
-# A Trusted AriaNg Docker Image Builder
+# AriaNg Docker
+
+## Build
+
+```
+docker build -t ljwzz/ariang .
+```
 
 ## Run with Docker
 
@@ -21,7 +27,7 @@ services:
     image: ljwzz/ariang:latest
     network_mode: bridge
     ports:
-      - "127.0.0.1:6880:80"
+      - '127.0.0.1:6880:80'
     restart: unless-stopped
     logging:
       driver: json-file
@@ -30,5 +36,6 @@ services:
 ```
 
 ## Credits
- + [mayswind/AriaNg⁠](https://github.com/mayswind/AriaNg)
- + [emikulic/darkhttpd⁠](https://github.com/emikulic/darkhttpd)
+
+- [mayswind/AriaNg⁠](https://github.com/mayswind/AriaNg)
+- [emikulic/darkhttpd⁠](https://github.com/emikulic/darkhttpd)
