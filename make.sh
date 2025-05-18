@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 # 常量定义
 readonly ARIANG_RELEASES_URL="https://api.github.com/repos/mayswind/AriaNg/releases/latest"
