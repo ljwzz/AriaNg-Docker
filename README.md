@@ -3,7 +3,7 @@
 ## Build
 
 ```
-docker build -t ljwzz/ariang .
+sh make.sh
 ```
 
 ## Run with Docker
